@@ -1,64 +1,117 @@
-﻿import React, { Component } from 'react';
-import { NavMenu } from './NavMenu';
-import { Link, NavLink } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
-import * as jsPDF from 'jspdf'
+﻿import React, { Component } from "react";
+import moment from "moment";
+import "../styles/homepage.css";
+import { Jumbotron, Container } from "reactstrap";
+import { Form, Select, Button, DatePicker } from "antd";
+import CustomerSummaryTable from "./customerSummaryTable"
+import * as jsPDF from "jspdf";
+const { Option } = Select;
 export class Summary extends Component {
-    displayName = Summary.name
+  displayName = Summary.name;
 
-    constructor(props) {
-        super(props);
-        this.state = { data: [], loading: true ,date:""};
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      loading: true,
+      date: "",
+      showTable: false,
+      selectedValue: "",
+      customerData: props.location.state.customerData,
+    };
 
-        this.handlechange = this.handlechange.bind(this);
-        this.onChange = this.onChange.bind(this);
-    }
-    formatDate(timestamp) {
-        var x = new Date(timestamp);
-        var dd = x.getDate();
-        var mm = x.getMonth() + 1;
-        var yy = x.getFullYear();
-        return dd + "-" + mm + "-" + yy;
-    }
-    handlechange = () => {
-        var id = this.formatDate(this.state.date);
-        fetch('/api/Customer/Summary/' + id, {
-            method: 'GET',
-            headers:
-                { "Content-Type": "text" }
+    this.handlechange = this.handlechange.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+  formatDate(timestamp) {
+    var x = new Date(timestamp);
+    var dd = x.getDate();
+    var mm = x.getMonth() + 1;
+    var yy = x.getFullYear();
+    return dd + "-" + mm + "-" + yy;
+  }
 
-        }
-        )
-            .then(response => response.text())
-            .then(data => {
-                
-                var doc = new jsPDF();
+  handlechange = (date, datestring) => {
+    this.setState({ date: datestring });
+  };
 
-                doc.text(data, 10, 10);
-                doc.save(id + '_Summary.pdf');
-            });
-    }
-  
-    onChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
-    }
-    render() {
-       
+  handleShowTable = (value) => {
+    this.setState({ showTable: value });
+  };
 
-       
-
-        return (
-            <div>
+  onChange(value) {
+    this.setState({ selectedValue: value });
+    // this.setState({ date: date.format('DD/MM/YYYY') }, () => console.log(this.state.date));
+  }
+  render() {
+    return this.state.showTable ? (
+      // <DeliveryTable handleShowTable={this.handleShowTable} username={this.state.username} selectedObject={this.state.selectedObject} />
+      <div>
+        <CustomerSummaryTable
+          customer={this.state.customerData.filter(cust => cust.customerId == this.state.selectedValue)[0]}
+          
+        />
+        <Button
+          block
+          size="large"
+          onClick={() => this.handleShowTable(false)}
+          value="Submit"
+          type="primary"
+          style={{
+            borderColor: "#fadb14",
+            backgroundColor: "#fadb14",
+            color: "white",
+          }}
+        >
+          Back
+        </Button>
+      </div>
+    ) : (
+      <div className="row" id="Body">
+        <div>
+          <Jumbotron fluid>
+            <Container fluid>
+              <h1 className="display-3">Customer Summary</h1>
+              {/* <h3 className="display-3">CustomerUsername</h3> */}
+              <div>
                 <div>
-                    <input type="date" name="date" onChange={this.onChange}/>
-
-
-                    <input type="submit" value="Submit" onClick={this.handlechange}/>
-                
-                    </div>
-               <a href="/fetchcustomer"> Return to Customer Management</a>
-                </div>)
-    }
+                <Select 
+          style={{ width: "100%" }} 
+          placeholder="Select customer name"
+          onChange={this.onChange}
+          >
+            {this.state.customerData.map((mag, i) => (
+              <Option value={mag.customerId} key={i}>
+                {mag.name}
+              </Option>
+            ))}
+          </Select>
+                </div>
+              </div>
+              <br></br>
+              <Button
+            block
+            disabled={this.state.selectedValue ? false : true}
+            size="large"
+            onClick={() => this.handleShowTable(true)}
+            value="Submit"
+            type="primary"
+            style={{
+              borderColor: "#fadb14",
+              backgroundColor: "#fadb14",
+              color: "white",
+            }}
+          >
+            Submit
+          </Button>{" "}
+              <br></br>
+              <br></br>
+              <br></br>
+              <a style={{width: "40%"}} href="/fetchcustomer"> Return to Customer Management </a>
+            </Container>
+          </Jumbotron>
+        </div>
+      </div>
+    );
+  }
 }
-
-

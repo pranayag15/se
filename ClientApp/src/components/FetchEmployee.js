@@ -1,121 +1,107 @@
-﻿import React, { Component } from 'react';
-import { NavMenu } from './NavMenu';
-import { Link, NavLink } from 'react-router-dom';
-import { Button } from 'reactstrap';
-import { Jumbotron, Container } from 'reactstrap';
-import { Table } from 'reactstrap';
+﻿import React, { Component } from "react";
+import { NavMenu } from "./NavMenu";
+import { Link, NavLink } from "react-router-dom";
+import { Button } from "reactstrap";
+import { Jumbotron, Container } from "reactstrap";
+import { Table } from "reactstrap";
+import EmployeeTable from "./employeeCard";
+import AddEmployee from "./modal";
+import AddEmployeeForm from "./forms/addEmployee";
 export class FetchEmployee extends Component {
-    displayName = FetchEmployee.name
+  displayName = FetchEmployee.name;
 
-    constructor(props) {
-        super(props);
-        this.state = { info: [], loading: true };
-
-        fetch('api/Employee/Index')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({info: data, loading: false });
-            });
-        
-    }
-     handleDelete(id,e) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      info: [],
+      loading: true,
+      employeeData: [
         {
-             {
-                 
-                 console.log('Parameter', id);
-                 if (!window.confirm("Do you want to delete employee with Id: " + id))
-                    return;
-                else {
-                    fetch('api/Employee/Delete/' + id, {
-                        method: 'delete'
-                    }).then(data => {
-                        this.setState(
-                            {
-                               info: this.state.info.filter((rec) => {
-                                    return (rec.employeeId !== id);
-                                })
-                            });
-                    });
-                }
-            }
-        }
-    }
+          key: "1",
+          name: "Anmol",
+          employeeId: 32,
+          pincode: "256341",
+          username: "anmolabc",
+        },
+        {
+          key: "2",
+          name: "Sachin",
+          employeeId: 42,
+          pincode: "369852",
+          username: "sachinboy",
+        },
+        {
+          key: "3",
+          name: "Amit",
+          employeeId: 52,
+          pincode: "254158",
+          username: "amitchopra",
+        },
+      ],
+    };
+  }
 
+  handleDelete = (index) => {
+    let data = this.state.employeeData.filter(
+      (item) => item.employeeId !== index
+    );
+    this.setState({ employeeData: data });
+  };
 
-       handleEdit(id,e) {
-           {
-               
-                this.props.history.push("/employee/edit/" + id);
-            }
-        }
-    
+  addNewEmployee = (data) => {
+    data.employeeId = Date.now() % 100;
+    data.key = this.state.employeeData[this.state.employeeData.length - 1] + 1;
+    this.setState({ employeeData: [...this.state.employeeData, data] });
+  };
 
-     renderForecastsTable(info) {
-        return (
-            <Table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>EmployeeId</th>
-                        <th>Name</th>
-                        <th>Pincode</th>
-                       
-                        <th>Address</th>
-                        <th>Username</th>
-                    </tr> 
-                </thead>
-                <tbody>
-                    {info.map(emp =>
-                        <tr key={emp.employeeId}>
-                            <td></td>
-                            <td>{emp.employeeId}</td>
-                            <td>{emp.name}</td>
-                            <td>{emp.pincode}</td>
-                            
-                            <td>{emp.address}</td>
-                            <td>{emp.username}</td>
-                            <td>
-                                <Button color="warning" onClick={(e) => this.handleEdit(emp.employeeId, e)}>Edit</Button>{' '}
+  handleEdit = (id, e) => {
+    this.props.history.push("/employee/edit/" + id);
+  };
 
-                                <Button color="danger" onClick={(e) => this.handleDelete(emp.employeeId, e)}>Delete</Button>{' '}
+  renderForecastsTable(info) {
+    return <h1>Loading...</h1>;
+  }
 
-                               
-                            </td>  
-                        </tr>
-                    )}
-                </tbody>
-            </Table>
-        );
-    }
+  render() {
+    let contents = this.state.loading ? (
+      <EmployeeTable
+        handleDelete={this.handleDelete}
+        dataSource={this.state.employeeData}
+      />
+    ) : (
+      this.renderForecastsTable(this.state.info)
+    );
 
-        render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            :this.renderForecastsTable(this.state.info);
+    return (
+      <div>
+        <NavMenu></NavMenu>
+        <Jumbotron fluid>
+          <Container fluid>
+            <h1 className="display-3">Delivery Personnel</h1>
 
-            return (
-              
-                    <div>
-                    <NavMenu></NavMenu>
-                    <Jumbotron fluid>
-                        <Container fluid>
-                <h1 className="display-3">Delivery Personnel</h1>
-                
-                <p>
-                    <Link to="/addemployee">Create New</Link>
-                </p>
-                            {contents}
-                        </Container>
-                    </Jumbotron>
-            </div>);  
-    }
+            <AddEmployee
+              handleSubmit={(data) => this.addNewEmployee(data)}
+              form={AddEmployeeForm}
+              modalText="Add Employee"
+            />
+            <br />
+            <br />
+            <br />
+            {contents}
+            <br />
+            <br />
+          </Container>
+        </Jumbotron>
+      </div>
+    );
+  }
 }
 
 export class EmployeeData {
-    employeeId = 0;
-    name = "";
-    pincode= "";
-    salary= "";
-    address = "";
-    username = "";
+  employeeId = 0;
+  name = "";
+  pincode = "";
+  salary = "";
+  address = "";
+  username = "";
 }

@@ -47,7 +47,7 @@ a {
     margin-right: 0.625%;
     text-align: center;
     line-height: 3;
-    color: black;
+    color: black !important;
 }
 
 li:last-child a {
@@ -83,8 +83,14 @@ input {
 
 body {
     padding: 20px 80px;
-    background: #eee url(../images/k.jpg);
+    background: #eee url(../images/pic1.jpg);
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
+
 #t {
     font-family: 'Open Sans', sans-serif;
     color: black;
@@ -122,6 +128,7 @@ body {
     padding-right:2em;
 }
 #h {
+    background-color: #f0f8ff87;
     color: #111;
     font-family: 'Helvetica Neue', sans-serif;
     font-size: 39px;
