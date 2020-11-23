@@ -12,6 +12,7 @@ import { Login } from './components/Login';
 import { LoginD } from './components/LoginD';
 import { Register } from './components/Register';
 import { Summary} from './components/Summary';
+import Customer from './components/customerLoginPage';
 export default class App extends Component {
   displayName = App.name
 
@@ -33,6 +34,7 @@ export default class App extends Component {
             <Route path='/fetchmagazine' component={FetchMagazine} />
             <Route path='/addmagazine' component={AddMagazine} />
             <Route path='/logindelivery' component={LoginD} />
+            <Route path='/customer' component={Customer} />
  
             <Route path='/magazine/edit/:magid' component={AddMagazine} />  
 

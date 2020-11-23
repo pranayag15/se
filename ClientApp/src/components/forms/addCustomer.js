@@ -64,6 +64,30 @@ class FormEmployee extends Component {
           <Input />
         </Form.Item>
         <Form.Item
+          label="username"
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: "Please input username!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
           label="Pincode"
           name="pincode"
           rules={[

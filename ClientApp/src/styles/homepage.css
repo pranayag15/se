@@ -50,23 +50,24 @@ a {
     color: black !important;
 }
 
-li:last-child a {
+/* li:last-child a {
     margin-right: 0;
-}
+} */
 
-a:link, a:visited, a:focus {
-    background: yellow;
+/* a:link, a:visited, a:focus {
+    background:#4B78CA;
+    border-radius: 5px;
 }
 
 a:hover {
-    background: orange;
+    background: rgb(44, 108, 119);
 }
 
 a:active {
 
     background: red;
     color: white;
-}
+} */
 input {
     border-radius: 5px;
     font-family: "Helvetica Neue";
@@ -112,10 +113,9 @@ body {
     max-width: 320px;
 }
 #bck {
-    background: #525252; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #525252, #3d72b4); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #525252, #3d72b4);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /* background: #525252;
+    background: -webkit-linear-gradient(to right, #525252, #3d72b4);
+    background: linear-gradient(to right, #525252, #a2b43d); */
    
     height: 25em;
     width: 30em;

@@ -1,8 +1,9 @@
 ﻿import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router";
 import "../styles/homepage.css";
 import { Jumbotron, Container } from "reactstrap";
-import {message} from "antd"
+import { message } from "antd";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 export class Login extends Component {
@@ -30,48 +31,19 @@ export class Login extends Component {
 
   login() {
     if (this.state.username && this.state.password) {
-      // fetch("api/login", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     // "Content-Type": "application/x-www-form-urlencoded",
-      //   },
-
-      //   body: JSON.stringify(this.state),
-      // })
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     if (data == 1) {
-        message.success("Login succesfull!")
-        return    this.setState({ redirectToReferrer: true });
-        //   } else {
-        //     alert("Login Invalid");
-        //   }
-        // });
-      //sessionStorage.setItem('userData',JSON.stringify(responseJson));
-      //
-      //}
-      //});
+      message.success("Login succesfull!");
+      if (this.state.username === "mohit" || this.state.username === "veenu" || this.state.username === "akhil")
+        this.props.history.push({
+          pathname: "/customer",
+          state: { username: this.state.username },
+        });
+      return this.setState({ redirectToReferrer: true });
     }
-    message.error("Enter credentials!")
+    message.error("Enter credentials!");
   }
   register(event) {
     event.preventDefault();
-    // const data = new FormData(event.target);
-    // alert("hello from register");
-    // fetch("api/User/Create", {
-    //   method: "POST",
-    //   body: data,
-    // })
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-        this.setState({ redirectToReferrer: true });
-      // });
-
-    //sessionStorage.setItem('userData',JSON.stringify(responseJson));
-    //
-    //}
-    //});
+    this.setState({ redirectToReferrer: true });
   }
 
   onChange(e) {
@@ -145,6 +117,7 @@ export class Login extends Component {
     this.setState({ redirectToRegister2: true });
   }
   render() {
+    // console.log(this.props)
     if (this.state.redirectToReferrer || sessionStorage.getItem("userData")) {
       return <Redirect to={"/fetchemployee"} />;
     }
@@ -160,28 +133,6 @@ export class Login extends Component {
     }
 
     return (
-      /** <div className="Login">
-        <section  class="my-container" >
-            <div className=" col-md-6 col-md-offset-3">
-<h4>Login</h4>
-<label>Username</label>
-<input type="text" name="username" onChange={this.onChange}/>
-<label>Password</label>
-<input type="password" name="password" onChange={this.onChange}/>
-            <input type="submit" value="Login" onClick={this.login} />
-        </div>
-        <div>
-            <form action="/register">
-                <input type="submit" value="Registration" />
-            </form>
-        </div>
-        <div>
-            <form action="/logindelivery">
-                <input type="submit" value="Login as Delivery Person" />
-            </form>
-            </div>
-            </section>
-</div>*/
       <div className="col-md-6 col-md-offset-2">
         <h1 id="h">Newspaper Agency Automation</h1>
         <div className="Login">
@@ -229,4 +180,4 @@ export class Login extends Component {
     );
   }
 }
-export default Login;
+export default withRouter(Login);

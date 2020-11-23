@@ -2,13 +2,14 @@
 import { NavMenu } from "./NavMenu";
 import { Link, NavLink } from "react-router-dom";
 import * as jsPDF from "jspdf";
-import { Button } from "reactstrap";
+// import { Button } from "reactstrap";
 import { Jumbotron, Container } from "reactstrap";
 import { Table } from "reactstrap";
 import CustomerModal from "./modal";
 import AddCustomerForm from "./forms/addCustomer";
 import CustomerTable from "./customerTable";
 import moment from "moment"
+import {Button} from "antd"
 export class FetchCustomer extends Component {
   displayName = FetchCustomer.name;
 
@@ -25,6 +26,51 @@ export class FetchCustomer extends Component {
           address: "MMIG-181, Preeti Vihar",
           pincode: 652341,
           magazine: ["Champak", "Sarita", "Bal hans"],
+          issueDate: "15/05/2019",
+          endDate: "01/02/2021",
+          billDate: "01/12/2020",
+          paymentMode: "Cash",
+          paymentStatus: "Paid",
+          subscriptionStatus: "going",
+          email: "mohit@gmail.com"
+        },
+        {
+          key: 1,
+          customerId: 11,
+          name: "Akhil Vij",
+          address: "MMIG-181, Preeti Vihar",
+          pincode: 652341,
+          magazine: ["Sports king", "Bal hans"],
+          issueDate: "15/05/2019",
+          endDate: "01/02/2021",
+          billDate: "01/12/2020",
+          paymentMode: "Cash",
+          paymentStatus: "Paid",
+          subscriptionStatus: "going",
+          email: "akhil@gmail.com"
+        },
+        {
+          key: 1,
+          customerId: 11,
+          name: "Yash Singh",
+          address: "MMIG-181, Preeti Vihar",
+          pincode: 652341,
+          magazine: ["Champak", "Economic times", "Bal hans"],
+          issueDate: "15/05/2019",
+          endDate: "01/02/2021",
+          billDate: "01/12/2020",
+          paymentMode: "Cash",
+          paymentStatus: "Paid",
+          subscriptionStatus: "going",
+          email: "mohit@gmail.com"
+        },
+        {
+          key: 1,
+          customerId: 11,
+          name: "Shubham Verma",
+          address: "MMIG-181, Preeti Vihar",
+          pincode: 652341,
+          magazine: ["Champak", "Economic times", "Bal hans"],
           issueDate: "15/05/2019",
           endDate: "01/02/2021",
           billDate: "01/12/2020",
@@ -221,9 +267,12 @@ export class FetchCustomer extends Component {
               form={AddCustomerForm}
               modalText="Create New"
             />
-            <p>
-              <Link to={{pathname: "/getsummary", state: { customerData: this.state.customerData }}}>Get Summary</Link>
-            </p>
+            <br/>
+            <br/>
+              <Link to={{pathname: "/getsummary", state: { customerData: this.state.customerData }}}>
+                <Button type="primary" >Get Summary</Button>
+              </Link>
+            
             {contents}
           </Container>
         </Jumbotron>
